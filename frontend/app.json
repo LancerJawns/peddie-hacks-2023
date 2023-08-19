@@ -1,4 +1,9 @@
 {
-  "name": "trashapp",
-  "displayName": "Sappy - From Trash To Trees"
+  "displayName": "Sappy - From Trash To Trees",
+  "expo": {
+    "name": "trashapp"
+  },
+  "android": {
+    "package": "com.lancerjawns.trashapp"
+  }
 }
