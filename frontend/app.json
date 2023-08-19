@@ -1,7 +1,10 @@
 {
   "displayName": "Sappy - From Trash To Trees",
   "expo": {
-    "name": "trashapp"
+    "name": "trashapp",
+    "web": {
+      "bundler": "metro"
+    }
   },
   "android": {
     "package": "com.lancerjawns.trashapp"
