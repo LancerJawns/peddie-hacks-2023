@@ -4,6 +4,7 @@ import userRouter from './routes/user/user.route';
 import authRouter from './routes/oauth/oauth.route';
 import { timeToWeekId } from './db/weekly_plant/WeeklyPlant';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 const app = express();
 
@@ -11,6 +12,12 @@ const app = express();
 app.use(urlencoded({ extended: true }));
 app.use(json());
 app.use(cookieParser());
+app.use(
+    cors({
+        origin: 'http://localhost:8081',
+        credentials: true,
+    })
+);
 
 // routers
 app.use('/user', userRouter);
