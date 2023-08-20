@@ -22,7 +22,6 @@ const LoginTab = ({navigation}) => {
   const submitSignup = () => {
     register(username, password).then(
       () => {
-        console.log('cool');
         navigation.navigate('Login');
       },
       err => {

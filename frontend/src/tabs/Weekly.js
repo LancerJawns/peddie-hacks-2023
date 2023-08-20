@@ -24,7 +24,6 @@ const WeeklyTab = ({navigation}) => {
       const currentPlant = await getCurrentPlant();
       const currentWeek = await getCurrentWeek();
 
-      console.log(currentWeek);
       setPlantHealth(currentPlant.score);
       setPlantStreak(currentPlant.streak);
       setWeeklyData(currentPlant.trashStatus);

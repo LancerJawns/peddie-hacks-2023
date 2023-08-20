@@ -53,12 +53,19 @@ plantRouter.get('/current', async (req, res) => {
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-plantRouter.post('/uploadPlantImage', validate([body('image').isString()]), async (req, res) => {
-    // if (!req.file) return res.status(400).json({ message: 'Missing image' });
-    const { image } = req.body;
-    // if (file.mimetype !== 'image/jpeg') return res.status(400).json({ message: "File MIME type must be 'image/jpeg'" });
+plantRouter.post('/uploadPlantImage', upload.none(), async (req, res) => {
+    if (!req.body.trash) return res.status(400).json({ message: 'Missing image' });
+    const { trash } = req.body;
+    // if (req.file.mimetype !== 'image/jpeg')
+    // return res.status(400).json({ message: "File MIME type must be 'image/jpeg'" });
 
-    const isTrash = recognizeTrash(Buffer.from('data:image/jpeg;base64,' + image, 'base64'));
+    // slce the preheader thing off
+    let regex = /^data:.+\/(.+);base64,(.*)$/;
+
+    let matches = trash.match(regex);
+    let data = matches[2];
+
+    const isTrash = recognizeTrash(Buffer.from(data, 'base64'));
 
     if (!isTrash) return res.status(401).json({ message: 'Could not recognize trash' });
 
@@ -83,8 +90,6 @@ plantRouter.post('/uploadPlantImage', validate([body('image').isString()]), asyn
             ? (user.streak ?? 0) + 1
             : user.streak;
 
-    console.log(`streak: `, streak, req.userId);
-
     prisma.user
         .update({
             where: { id: req.userId },
@@ -92,6 +97,7 @@ plantRouter.post('/uploadPlantImage', validate([body('image').isString()]), asyn
                 streak,
             },
         })
+        .then(() => {})
         .catch((err: any) => {
             console.log(err);
         });

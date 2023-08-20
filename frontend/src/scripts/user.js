@@ -18,27 +18,16 @@ export const getCurrentPlant = async () => {
   return (await axios.get('/user/plant/current')).data.plant;
 };
 
-export const uploadTrashImage = async imageFile => {
+export const uploadTrashImage = async base64 => {
   const data = new FormData();
+  data.append('trash', base64);
 
-  data.append('trash', {
-    uri: imageFile,
-    name: 'trash.jpg',
-    type: 'image/jpeg',
+  return await axios.post('/user/plant/uploadPlantImage', data, {
+    headers: {'Content-Type': ' multipart/form-data'},
   });
-  return await axios.post(
-    '/user/plant/uploadPlantImage',
-    {
-      image: imageFile,
-    },
-    {
-      headers: {'Content-Type': 'application/json'},
-    },
-  );
 };
 
 export const getWeeklyPlants = async () => {
   const req = await axios.get('/user/plant/weeklyPlants');
-  console.log(req.data);
   return req.data.plants;
 };

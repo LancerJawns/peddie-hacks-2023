@@ -10,9 +10,5 @@ export const register = async (username, password) => {
 export const login = async (username, password) => {
   const token = await axios.post('/auth/login', {username, password});
 
-  console.log(token);
-
-  //   setItem('token', token);
-
   return token;
 };

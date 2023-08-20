@@ -33,8 +33,6 @@ authRouter.post('/register', validate([body('username').notEmpty(), body('passwo
 
     const hashed = await hash(password);
 
-    console.log(username, password);
-
     prisma.user
         .create({
             data: {
@@ -82,13 +80,9 @@ authRouter.post('/login', validate([body('username'), body('password')]), async 
 export const authenticateUser = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies.token;
 
-    console.log(req.cookies);
-
     const user = await USER_STORE.getUserByToken(token);
 
     if (!user) return res.status(401).send({ message: 'No user found. Please log in. ' });
-
-    console.log(user);
 
     req.userId = user.id;
 

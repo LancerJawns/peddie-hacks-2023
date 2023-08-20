@@ -13,6 +13,7 @@ import {uploadTrashImage} from '../scripts/user';
 const CameraTab = ({navigation}) => {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
+  const [ready, setReady] = useState(false);
 
   if (!permission) {
     // Camera permissions are still loading
@@ -40,19 +41,26 @@ const CameraTab = ({navigation}) => {
 
   const snapPic = async () => {
     if (!camera) return;
+
+    if (!ready) return;
+
     const photo = await camera.takePictureAsync({
+      imageType: 'jpg',
       quality: 0,
     });
 
     if (!photo) return;
 
-    MediaLibrary.saveToLibraryAsync('./temp/image.jpg');
+    camera.pausePreview();
 
-    await uploadTrashImage('./temp/image.jpg');
+    await uploadTrashImage(photo.base64);
+
+    navigation.navigate('Weekly');
   };
   return (
     <SafeAreaView style={{height: '100%'}}>
       <Camera
+        onCameraReady={() => setReady(true)}
         style={{flex: 1, width: '100%', height: '100%'}}
         type={type}
         ref={r => {
