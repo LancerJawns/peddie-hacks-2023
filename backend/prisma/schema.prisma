@@ -8,24 +8,27 @@ datasource db {
 }
 
 model User {
-  id            Int         @id @default(autoincrement())
-  username      String      @unique
+  id           Int    @id @default(autoincrement())
+  username     String @unique
   passwordHash String
 
-  plantTime    DateTime?
+  plantTime DateTime?
 
   weeklyPlants WeeklyPlant[]
 }
 
 model WeeklyPlant {
-  id            Int           @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-  user          User          @relation(fields: [userId], references: [id])
-  userId        Int
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 
-  weekId        Int
-  plantScore    Int           @default(0)
+  weekId     Int
+  plantScore Int @default(0)
 
-  streak        Int           @default(0)
-  updatedAt     DateTime?
+  streak    Int       @default(0)
+  updatedAt DateTime?
+
+  // not entered 0, not picked up 1, picked up 2
+  trashStatus Int @default(0)
 }
