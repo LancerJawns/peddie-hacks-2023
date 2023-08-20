@@ -90,7 +90,7 @@ plantRouter.post('/uploadPlantImage', upload.none(), async (req, res) => {
             ? (user.streak ?? 0) + 1
             : user.streak;
 
-    prisma.user
+    await prisma.user
         .update({
             where: { id: req.userId },
             data: {
@@ -102,7 +102,7 @@ plantRouter.post('/uploadPlantImage', upload.none(), async (req, res) => {
             console.log(err);
         });
 
-    prisma.weeklyPlant
+    await prisma.weeklyPlant
         .update({
             where: { id: req.plant?.id },
             data: {
