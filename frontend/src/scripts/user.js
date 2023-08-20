@@ -19,8 +19,15 @@ export const getCurrentPlant = async () => {
 };
 
 export const uploadTrashImage = async imageFile => {
+  const data = new FormData();
+
+  data.append('trash', {
+    uri: imageFile,
+    name: 'trash.jpg',
+    type: 'image/jpeg',
+  });
   return await axios.post(
-    '/user/plant/uploadTrashImage',
+    '/user/plant/uploadPlantImage',
     {
       image: imageFile,
     },

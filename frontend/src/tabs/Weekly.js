@@ -33,19 +33,20 @@ const WeeklyTab = ({navigation}) => {
   }, []);
 
   const showTheCamera = () => {
-    setShowCamera(true);
+    navigation.navigate('Camera');
+    // setShowCamera(true);
   };
 
   const dayLabelRenders = weeklyTrackerData.map((e, i) => (
     <DayData key={i} state={e} isToday={currentDay === i} day={days[i]} />
   ));
 
-  if (showCamera)
-    return (
-      <View>
-        <Camera />
-      </View>
-    );
+  // if (showCamera)
+  //   return (
+  //     <View>
+  //       <Camera />
+  //     </View>
+  //   );
 
   return (
     <SafeAreaView style={styles.container}>

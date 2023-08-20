@@ -15,6 +15,7 @@ import LoginTab from './tabs/Login';
 import WeeklyTab from './tabs/Weekly';
 import HistoryTab from './tabs/History';
 import SettingsTab from './tabs/Settings';
+import CameraTab from './tabs/Camera';
 
 const App = () => {
   const [fontsLoaded] = useFonts({
@@ -86,6 +87,13 @@ const App = () => {
         <Tab.Screen
           name={'Signup'}
           component={SignupTab}
+          options={{
+            tabBarButton: () => null,
+          }}
+        />
+        <Tab.Screen
+          name={'Camera'}
+          component={CameraTab}
           options={{
             tabBarButton: () => null,
           }}

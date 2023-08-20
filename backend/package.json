@@ -19,6 +19,7 @@
         "@types/jsonwebtoken": "^9.0.2",
         "@types/multer": "^1.4.7",
         "@types/node": "^20.5.0",
+        "@types/node-fetch": "^2.6.4",
         "prisma": "^5.1.1"
     },
     "dependencies": {
@@ -33,6 +34,7 @@
         "jsonwebtoken": "^9.0.1",
         "multer": "^1.4.5-lts.1",
         "node-cron": "^3.0.2",
+        "node-fetch": "^2.6.13",
         "node-pushnotifications": "^2.1.0",
         "ts-node": "^10.9.1",
         "typescript": "^5.1.6"

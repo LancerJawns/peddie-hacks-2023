@@ -1,4 +1,4 @@
-import {Camera as ExpoCamera, CameraType} from 'expo-camera';
+import {Camera, CameraType, MediaLibrary} from 'expo-camera';
 import {useState, useRef} from 'react';
 import {
   Button,
@@ -8,27 +8,28 @@ import {
   View,
   SafeAreaView,
 } from 'react-native';
+import {uploadTrashImage} from '../scripts/user';
 
-const Camera = ({navigation}) => {
+const CameraTab = ({navigation}) => {
   const [type, setType] = useState(CameraType.back);
-  const [permission, requestPermission] = ExpoCamera.useCameraPermissions();
+  const [permission, requestPermission] = Camera.useCameraPermissions();
 
-  // if (!permission) {
-  //   // Camera permissions are still loading
-  //   return <View />;
-  // }
+  if (!permission) {
+    // Camera permissions are still loading
+    return <View />;
+  }
 
-  // if (!permission.granted) {
-  //   // Camera permissions are not granted yet
-  //   return (
-  //     <View style={styles.container}>
-  //       <Text style={{textAlign: 'center'}}>
-  //         We need your permission to show the camera
-  //       </Text>
-  //       <Button onPress={requestPermission} title="grant permission" />
-  //     </View>
-  //   );
-  // }
+  if (!permission.granted) {
+    // Camera permissions are not granted yet
+    return (
+      <View style={styles.container}>
+        <Text style={{textAlign: 'center'}}>
+          We need your permission to show the camera
+        </Text>
+        <Button onPress={requestPermission} title="grant permission" />
+      </View>
+    );
+  }
 
   const toggleCameraType = () =>
     setType(current =>
@@ -39,54 +40,68 @@ const Camera = ({navigation}) => {
 
   const snapPic = async () => {
     if (!camera) return;
-    const photo = await ExpoCamera.takePictureAsync();
+    const photo = await camera.takePictureAsync({
+      quality: 0,
+    });
 
     if (!photo) return;
 
-    await uploadTrashImage(photo.base64);
-  };
+    MediaLibrary.saveToLibraryAsync('./temp/image.jpg');
 
+    await uploadTrashImage('./temp/image.jpg');
+  };
   return (
-    <SafeAreaView style={styles.container}>
-      <ExpoCamera
-        style={styles.camera}
+    <SafeAreaView style={{height: '100%'}}>
+      <Camera
+        style={{flex: 1, width: '100%', height: '100%'}}
         type={type}
         ref={r => {
           camera = r;
         }}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-            <Text style={styles.text}>Flip Camera</Text>
-          </TouchableOpacity>
+        <View style={{height: '100%'}}>
           <View
             style={{
               alignSelf: 'center',
               flex: 1,
               alignItems: 'center',
+              height: '100%',
+              flexDirection: 'column-reverse',
             }}>
             <TouchableOpacity
               onPress={snapPic}
               style={{
-                width: 70,
-                height: 70,
-                bottom: 0,
-                borderRadius: 50,
-                backgroundColor: '#fff',
-              }}
-            />
+                width: 130,
+                borderRadius: 4,
+                backgroundColor: '#14274e',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 40,
+              }}>
+              <Text
+                style={{
+                  color: '#fff',
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                }}>
+                Take picture
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
-      </ExpoCamera>
+      </Camera>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+  },
   camera: {},
   buttonContainer: {},
   button: {},
   text: {},
 });
 
-export default Camera;
+export default CameraTab;
