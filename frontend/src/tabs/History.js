@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-import {FlatList, StyleSheet} from 'react-native';
-import {SafeAreaView} from 'react-native';
+import {FlatList, StyleSheet, SafeAreaView, View} from 'react-native';
 
 import CloudHeader from '../components/CloudHeader';
 import SmallPlantSummary from '../components/SmallPlantSummary';
@@ -10,24 +9,10 @@ import {getCurrentWeek, getWeeklyPlants} from '../scripts/user';
 const HistoryTab = ({navigation}) => {
   // fetch this with auth token
   const [historyData, setHistoryData] = useState([]);
-  //   [
-  //     {
-  //       howManyWeeksAgo: 1,
-  //       health: 3,
-  //     },
-  //     {
-  //       howManyWeeksAgo: 2,
-  //       health: 4,
-  //     },
-  //     {
-  //       howManyWeeksAgo: 3,
-  //       health: 2,
-  //     },
-  //   ];
 
   useEffect(() => {
     (async () => {
-      const currentWeek = await getCurrentWeek();
+      const currentWeek = (await getCurrentWeek()).weekId;
       const plants = await getWeeklyPlants();
 
       setHistoryData(
@@ -36,15 +21,8 @@ const HistoryTab = ({navigation}) => {
           .map(e => ({
             howManyWeeksAgo: currentWeek - e.weekId,
             health: e.plantScore,
-          })),
-      );
-      console.log(
-        plants
-          //   .filter(e => e.weekId != currentWeek)
-          .map(e => ({
-            howManyWeeksAgo: currentWeek - e.weekId,
-            health: e.plantScore,
-          })),
+          }))
+          .sort((a, b) => a.howManyWeeksAgo - b.howManyWeeksAgo),
       );
     })();
   }, []);
@@ -52,12 +30,14 @@ const HistoryTab = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <CloudHeader>Plant History</CloudHeader>
-      <FlatList
-        data={historyData}
-        renderItem={(item, index) => {
-          return <SmallPlantSummary key={index} {...item.item} />;
-        }}
-      />
+      <View style={styles.innerContainer}>
+        <FlatList
+          data={historyData}
+          renderItem={(item, index) => {
+            return <SmallPlantSummary key={index} {...item.item} />;
+          }}
+        />
+      </View>
     </SafeAreaView>
   );
 };
@@ -65,7 +45,10 @@ const HistoryTab = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(240, 240, 250)',
+    backgroundColor: 'rgb(200, 210, 250)',
+  },
+  innerContainer: {
+    paddingTop: 65,
   },
 });
 

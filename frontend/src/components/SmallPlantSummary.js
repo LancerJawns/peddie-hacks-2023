@@ -8,12 +8,19 @@ const SmallPlantSummary = ({howManyWeeksAgo, health}) => {
   return (
     <View style={styles.summaryContainer}>
       <View style={styles.graphicContainer}>
-        <Image style={styles.graphicImage} />
+        <Image
+          style={styles.graphicImage}
+          source={require(`../assets/images/health2.png`)}
+        />
       </View>
       <View style={styles.statsContainer}>
         <View style={styles.statContainer}>
           <Text style={styles.statText}>
-            {howManyWeeksAgo} {howManyWeeksAgo === 1 ? 'Week' : 'Weeks'} Ago
+            {howManyWeeksAgo === 0
+              ? 'This Week'
+              : `${howManyWeeksAgo} ${
+                  howManyWeeksAgo === 1 ? 'Week' : 'Weeks'
+                } Ago`}
           </Text>
         </View>
         <View style={styles.statContainer}>
@@ -31,20 +38,22 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 20,
     marginBottom: 5,
-    backgroundColor: 'red',
+    backgroundColor: 'rgb(212, 139, 66)',
   },
   graphicContainer: {
     width: 120,
     height: 120,
-    backgroundColor: 'yellow',
+    // backgroundColor: 'yellow',
   },
   graphicImage: {
     // todo, fill mode
+    width: 120,
+    height: 120,
   },
   statsContainer: {
     width: 120,
     marginLeft: 20,
-    backgroundColor: 'blue',
+    // backgroundColor: 'blue',
   },
   statContainer: {
     flexDirection: 'row',
@@ -55,7 +64,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     textAlign: 'left',
-    color: 'orange',
+    color: 'black',
   },
 });
 

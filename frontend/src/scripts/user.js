@@ -1,4 +1,5 @@
 import {hasItem, getItem, setItem} from './storage';
+
 import axios from 'axios';
 
 export const getUserData = async () => {
@@ -6,7 +7,7 @@ export const getUserData = async () => {
 };
 
 export const getCurrentWeek = async () => {
-  return (await axios.get('/currentWeek')).data.weekId;
+  return (await axios.get('/currentWeek')).data;
 };
 
 export const changePlantTime = async time => {
@@ -18,13 +19,15 @@ export const getCurrentPlant = async () => {
 };
 
 export const uploadTrashImage = async imageFile => {
-  const data = new FormData();
-
-  data.append('trash', imageFile);
-
-  return await axios.post('/user/plant/uploadTrashImage', data, {
-    headers: {'Content-Type': 'multipart/form-data'},
-  });
+  return await axios.post(
+    '/user/plant/uploadTrashImage',
+    {
+      image: imageFile,
+    },
+    {
+      headers: {'Content-Type': 'application/json'},
+    },
+  );
 };
 
 export const getWeeklyPlants = async () => {

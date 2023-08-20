@@ -1,82 +1,65 @@
 import React, {useEffect, useState} from 'react';
 
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Button} from 'react-native';
+import {FAB} from 'react-native-elements';
 import {SafeAreaView} from 'react-native';
 
 import LargePlantSummary from '../components/LargePlantSummary';
 import DayData from '../components/DayData';
-import {getCurrentPlant} from '../scripts/user';
+import Camera from './Camera';
+import {getCurrentPlant, getCurrentWeek} from '../scripts/user';
 
 const WeeklyTab = ({navigation}) => {
-  const weeklyTrackerData = [
-    {
-      day: 'S',
-      state: 'missed',
-      isToday: false,
-    },
-    {
-      day: 'M',
-      state: 'fed',
-      isToday: false,
-    },
-    {
-      day: 'T',
-      state: 'fed',
-      isToday: true,
-    },
-    {
-      day: 'W',
-      state: 'empty',
-      isToday: false,
-    },
-    {
-      day: 'T',
-      state: 'empty',
-      isToday: false,
-    },
-    {
-      day: 'F',
-      state: 'empty',
-      isToday: false,
-    },
-    {
-      day: 'S',
-      state: 'fed',
-      isToday: false,
-    },
-  ];
-  //   const [weeklyTrackerData, setWeeklyData] = useState([]);
+  const [weeklyTrackerData, setWeeklyData] = useState([]);
   const [plantHealth, setPlantHealth] = useState(0);
   const [plantStreak, setPlantStreak] = useState(0);
 
+  const [currentDay, setCurrentDay] = useState(0);
+  const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+  const [showCamera, setShowCamera] = useState(false);
+
   useEffect(() => {
     (async () => {
-      const currentWeek = await getCurrentPlant();
+      const currentPlant = await getCurrentPlant();
+      const currentWeek = await getCurrentWeek();
 
       console.log(currentWeek);
-
-      setPlantHealth(currentWeek.score);
-      setPlantStreak(currentWeek.streak);
+      setPlantHealth(currentPlant.score);
+      setPlantStreak(currentPlant.streak);
+      setWeeklyData(currentPlant.trashStatus);
+      setCurrentDay(currentWeek.currentDay);
     })();
   }, []);
 
-  const dayLabelRenders = [];
+  const showTheCamera = () => {
+    setShowCamera(true);
+  };
 
-  weeklyTrackerData.forEach((item, index) => {
-    dayLabelRenders.push(<DayData key={index} {...item} />);
-  });
+  const dayLabelRenders = weeklyTrackerData.map((e, i) => (
+    <DayData key={i} state={e} isToday={currentDay === i} day={days[i]} />
+  ));
+
+  if (showCamera)
+    return (
+      <View>
+        <Camera />
+      </View>
+    );
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        {/* ! TODO Change to icon  */}
-        <Button onPress={() => {}} title="Camera" />
-        
-
-      </View>
       <LargePlantSummary health={plantHealth} streak={plantStreak} />
       <View style={styles.contentContainer}>
         <View style={styles.weekDataContainer}>{dayLabelRenders}</View>
+        {/* ! TODO Change to icon  */}
+        {/* RAF, you got this! */}
+        <FAB
+          title="Record Trash"
+          overlayColor={'rgb(70, 150, 50)'}
+          color={'rgb(70, 150, 50)'}
+          onPress={showTheCamera}
+        />
       </View>
     </SafeAreaView>
   );

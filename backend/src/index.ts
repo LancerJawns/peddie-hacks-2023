@@ -2,7 +2,7 @@ import express, { json, urlencoded } from 'express';
 import prisma from './db/db';
 import userRouter from './routes/user/user.route';
 import authRouter from './routes/oauth/oauth.route';
-import { timeToWeekId } from './db/weekly_plant/WeeklyPlant';
+import { dayOfWeek, timeToWeekId } from './db/weekly_plant/WeeklyPlant';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
@@ -26,7 +26,7 @@ app.use('/auth', authRouter);
 app.get('/currentWeek', (req, res) =>
     res
         .status(200)
-        .send({ weekId: timeToWeekId(new Date()) })
+        .send({ weekId: timeToWeekId(new Date()), currentDay: dayOfWeek(new Date()) })
         .end()
 );
 

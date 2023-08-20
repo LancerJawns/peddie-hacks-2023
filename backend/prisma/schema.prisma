@@ -14,6 +14,8 @@ model User {
 
   plantTime DateTime?
 
+  streak    Int       @default(0)
+
   weeklyPlants WeeklyPlant[]
 }
 
@@ -26,9 +28,8 @@ model WeeklyPlant {
   weekId     Int
   plantScore Int @default(0)
 
-  streak    Int       @default(0)
   updatedAt DateTime?
 
   // not entered 0, not picked up 1, picked up 2
-  trashStatus Int @default(0)
+  trashStatus String  @default("0000000")
 }

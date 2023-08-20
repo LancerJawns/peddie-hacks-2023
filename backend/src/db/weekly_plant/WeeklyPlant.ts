@@ -1,11 +1,14 @@
-import { userInfo } from 'os';
 import prisma from '../db';
 import { getUserById } from '../user/User';
 
-const WEEK_EPOCH = new Date('January 4, 1970'); // the "first" week (starting from sunday)
+const WEEK_EPOCH = new Date('January 4, 1970 GMT-0400'); // the "first" week (starting from sunday)
 
 export const timeToWeekId = (time: Date): number => {
     return Math.floor((time.getTime() - WEEK_EPOCH.getTime()) / (1000 * 60 * 60 * 24 * 7));
+};
+
+export const dayOfWeek = (time: Date): number => {
+    return Math.floor(((time.getTime() - WEEK_EPOCH.getTime()) % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24));
 };
 
 export const getAllWeeklyPlants = async (userId: number) => {

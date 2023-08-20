@@ -6,22 +6,58 @@ const CloudBottom = () => {
   return (
     <View style={styles.container}>
       <View
-        style={{...styles.puff, left: -40, top: -30, width: 80, height: 60}}
+        style={{
+          ...styles.cloudBottomPuff,
+          left: -40,
+          top: -30,
+          width: 80,
+          height: 60,
+        }}
       />
       <View
-        style={{...styles.puff, left: 30, top: -50, width: 100, height: 100}}
+        style={{
+          ...styles.cloudBottomPuff,
+          left: 30,
+          top: -50,
+          width: 100,
+          height: 100,
+        }}
       />
       <View
-        style={{...styles.puff, left: 120, top: -40, width: 100, height: 80}}
+        style={{
+          ...styles.cloudBottomPuff,
+          left: 120,
+          top: -40,
+          width: 100,
+          height: 80,
+        }}
       />
       <View
-        style={{...styles.puff, left: 210, top: -30, width: 60, height: 60}}
+        style={{
+          ...styles.cloudBottomPuff,
+          left: 210,
+          top: -30,
+          width: 60,
+          height: 60,
+        }}
       />
       <View
-        style={{...styles.puff, left: 260, top: -30, width: 100, height: 80}}
+        style={{
+          ...styles.cloudBottomPuff,
+          left: 260,
+          top: -30,
+          width: 100,
+          height: 80,
+        }}
       />
       <View
-        style={{...styles.puff, left: 350, top: -20, width: 60, height: 60}}
+        style={{
+          ...styles.cloudBottomPuff,
+          left: 350,
+          top: -20,
+          width: 60,
+          height: 60,
+        }}
       />
     </View>
   );
@@ -30,8 +66,8 @@ const CloudBottom = () => {
 const CloudHeader = ({children}) => {
   return (
     <React.Fragment>
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>{children}</Text>
+      <View style={styles.cloudHeaderContainer}>
+        <Text style={styles.cloudHeaderText}>{children}</Text>
       </View>
       <CloudBottom />
     </React.Fragment>
@@ -50,10 +86,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     borderRadius: 100,
     backgroundColor: 'rgb(240, 240, 250)',
+    zIndex: -1000,
   },
   cloudHeaderContainer: {
     paddingVertical: 20,
     backgroundColor: 'rgb(240, 240, 250)',
+    zIndex: 100,
   },
   cloudHeaderText: {
     fontFamily: 'GloriaHallelujah',

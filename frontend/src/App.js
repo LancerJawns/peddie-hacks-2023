@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {useFonts} from 'expo-font';
 import './axios';
 
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
@@ -16,6 +17,9 @@ import HistoryTab from './tabs/History';
 import SettingsTab from './tabs/Settings';
 
 const App = () => {
+  const [fontsLoaded] = useFonts({
+    GloriaHallelujah: require('./assets/fonts/GloriaHallelujah-Regular.ttf'),
+  });
   // const removeNotificationHandler = (notification) => {
   //     const isForegroundNotification = notification.getData().userInteraction === 1 // is triple equal really necessary? idk but type cast might be sloppy from objective c
 
@@ -88,7 +92,7 @@ const App = () => {
         />
         <Tab.Screen name={'Weekly'} component={WeeklyTab} />
         <Tab.Screen name={'History'} component={HistoryTab} />
-        <Tab.Screen name={'Settings'} component={SettingsTab} />
+        {/* <Tab.Screen name={'Settings'} component={SettingsTab} /> */}
       </Tab.Navigator>
     </NavigationContainer>
   );
