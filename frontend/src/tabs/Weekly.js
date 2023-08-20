@@ -68,6 +68,12 @@ const WeeklyTab = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View>
+        {/* ! TODO Change to icon  */}
+        <Button onPress={() => {}} title="Camera" />
+        
+
+      </View>
       <LargePlantSummary health={plantHealth} streak={plantStreak} />
       <View style={styles.contentContainer}>
         <View style={styles.weekDataContainer}>{dayLabelRenders}</View>
